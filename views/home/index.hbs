@@ -1,23 +1,54 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title class="title">{{title}}</title>
-        <link rel="stylesheet" href="/stylesheets/style.css">
-    </head>
-    <body>
-        <nav>
-            <div class="navbar-title">
-                <h1 id="acebook-title">Welcome to {{title}}</h1>
-            </div>
-                <ul class="navbar-items">
-                    <a href="/users/new"><h3 id="signup-link">Sign Up</h3></a>
-                </ul>
-        </nav>
-        <div id="content-box">
-            <div id="login-box">
-                <h3 id="login-title">Start connecting now!</h3>
-                <img src="/images/download.png" alt="people connecting image" id="connecting-pic">
-                <a href="/sessions/new"><h3 id="login-link">Click here to login</h3></a>
-            </div>
+<head>
+  <link rel="stylesheet" href="stylesheets/home.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+  <title>{{title}}</title>
+</head>
+
+<body>
+  <section>
+    <div class="nav-bar">
+      <div class="logo">
+        <a href="#">
+          <img src="/images/acebook.png" alt="people connecting image" class="logo">
+        </a>
+      </div>
+      <div class="menu-bar">
+        <ul class="menu">
+          <li><a href="#">Home</a></li>
+          <li><a href="/users/new">Sign Up</a></li>
+          <li><a href="/sessions/new" class="login">Log In</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  {{!-- {{Connecting Aces Worldwide, Acebook!}} --}}
+  <section class="home" id="home ">
+        <div class="content">
+            <!-- Tagline -->
+            <h3 class="mainfont">
+                Connecting <span class="yellowColor"> Aces </span>Worldwide
+            </h3>
+            <h3>
+                Ace<span class="yellowColor">book</span>!
+                {{!-- <span class="yellowColor">book!</span> --}}
+            </h3>
+            <!--Description  -->
+            {{!-- <p>
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas accusamus tempore temporibus rem amet laudantium animi optio voluptatum. Natus obcaecati unde porro nostrum ipsam itaque impedit incidunt rem quisquam eos!
+            </p> --}}
+
+            <!-- CTA -->
+            <a href="# " class="btn">Socialize Like an Ace, Acebook!</a>
         </div>
-    </body>
+        <!-- Hero image -->
+
+        <div class="image">
+            <img src="/images/elevate.png" alt=" " />
+        </div>
+    </section>
+
+</body>
+
 </html>
