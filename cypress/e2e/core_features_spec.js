@@ -74,4 +74,86 @@ it('7) User can like another users post & Likes add up', () => {
     sitePage.shouldContain(".liked-by-tooltip", "tester1")
     sitePage.shouldContain(".liked-by-tooltip", "tester2")
 })
+
+it('8) User can like and unlike another users post & Likes count updates', () => {
+    sitePage.seed_db(); // DB reseeded to ensure posts are clear and not clashing during tests
+    sitePage.signupAndSignInAs("test1@test.com", "tester1", "password123"); // First test user creation
+    sitePage.createPostWith("TEST 1 POST");
+    sitePage.likePost(0); // Likes the first visible post on the page
+    sitePage.logOut(); // Log out of first account
+    sitePage.signupAndSignInAs("test2@test.com", "tester2", "password123"); // Second test user creation
+    sitePage.likePost(0);
+    cy.get(".post-likes").eq(0).should("contain", "2 likes");
+    sitePage.shouldContain(".liked-by-tooltip", "tester1");
+    sitePage.shouldContain(".liked-by-tooltip", "tester2");
+    sitePage.logOut(); // Log out of second account
+    sitePage.LoginAs("test1@test.com", "password123"); // Log in as user 1
+    sitePage.likePost(0);
+    cy.get(".post-likes").eq(0).should("contain", "1 likes");
+    sitePage.shouldContain(".liked-by-tooltip", "tester2");
+})
+
+it('9) User can comment on another users post', () => {
+    sitePage.seed_db(); // DB reseeded to ensure posts are clear and not clashing during tests
+    sitePage.signupAndSignInAs("test1@test.com", "tester1", "password123"); // First test user creation
+    sitePage.createPostWith("TEST 1 POST");
+    sitePage.logOut(); // Log out of first account
+    sitePage.signupAndSignInAs("test2@test.com", "tester2", "password123"); // Second test user creation
+    sitePage.makeComment("Nice post");
+    cy.get("i").eq(0).should("contain", "Nice post");
+})
+
+it('10) User can comment on their own post', () => {
+    sitePage.seed_db(); // DB reseeded to ensure posts are clear and not clashing during tests
+    sitePage.signupAndSignInAs("test1@test.com", "tester1", "password123"); // First test user creation
+    sitePage.createPostWith("TEST 1 POST");
+    sitePage.makeComment("Nice post");
+    cy.get("i").eq(0).should("contain", "Nice post");
+})
+
+it('11) User can request a friend and the request can be accepted', () => {
+    sitePage.seed_db(); // DB reseeded to ensure posts are clear and not clashing during tests
+    sitePage.signupAndSignInAs("test1@test.com", "tester1", "password123"); // First test user creation
+    sitePage.createPostWith("TEST 1 POST");
+    sitePage.logOut(); // Log out of first account
+    sitePage.signupAndSignInAs("test2@test.com", "tester2", "password123"); // Second test user creation
+    sitePage.requestFriend(); // Click poke button to request friend
+    sitePage.viewFriends(); // Go to friends page
+    sitePage.shouldContain(".friendship-requests", "tester1");
+    sitePage.logOut(); // Log out of second account
+    sitePage.LoginAs("test1@test.com", "password123"); // Log in as first user
+    sitePage.viewFriends(); // Go to friends page
+    sitePage.shouldContain(".pending-section", "tester2");
+    sitePage.acceptFriendRequest(); // Accept friend request
+    sitePage.shouldContain(".accepted-friendships", "tester2");
+})
+
+it('12) User can request a friend and the request can be rejected', () => {
+    sitePage.seed_db(); // DB reseeded to ensure posts are clear and not clashing during tests
+    sitePage.signupAndSignInAs("test1@test.com", "tester1", "password123"); // First test user creation
+    sitePage.createPostWith("TEST 1 POST");
+    sitePage.logOut(); // Log out of first account
+    sitePage.signupAndSignInAs("test2@test.com", "tester2", "password123"); // Second test user creation
+    sitePage.requestFriend(); // Click poke button to request friend
+    sitePage.viewFriends(); // Go to friends page
+    sitePage.shouldContain(".friendship-requests", "tester1");
+    sitePage.logOut(); // Log out of second account
+    sitePage.LoginAs("test1@test.com", "password123"); // Log in as first user
+    sitePage.viewFriends(); // Go to friends page
+    sitePage.shouldContain(".pending-section", "tester2");
+    sitePage.rejectFriendRequest(); // Accept friend request
+    sitePage.shouldContain(".accepted-friendships", "");
+})
+
+it('13) Post with only a space not allowed', () => {
+    sitePage.LoginAs("test1@test.com", "password123")
+    sitePage.createPostWith(" ");
+    sitePage.shouldContain("#new-post-form", "Error: An error occurred while creating the post.")
+})
+
+it('14) Post with oover 500 characters not allowed', () => {
+    sitePage.LoginAs("test1@test.com", "password123")
+    sitePage.createPostWith("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris nibh tellus, finibus ut justo vestibulum, viverra iaculis sem. Vivamus massa ex, sodales vel orci nec, maximus tincidunt mi. Mauris pulvinar dapibus vestibulum. Nunc dignissim sem nec ullamcorper eleifend. Nunc euismod in elit eu lacinia. Sed hendrerit tortor nec iaculis suscipit. In iaculis vel risus id finibus. Cras semper, turpis vitae interdum efficitur, eros odio scelerisque diam, euismod tristique felis quam non elit porta ante.");
+    sitePage.shouldContain("#new-post-form", "Error: An error occurred while creating the post.")
+})
 });

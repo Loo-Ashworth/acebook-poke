@@ -5,6 +5,7 @@ class sitePage {
         newPostUrl : "/posts/new",
         signUpURL: "/users/new",
         signInUrl: "/sessions/new",
+        friendsUrl: "/friends",
 
         enterEmail : () => cy.get("#email"),
         enterPassword : () => cy.get("#password"),
@@ -13,13 +14,41 @@ class sitePage {
         newPostButton : () => cy.get(".new-post-link"),
         newPostInput : () => cy.get("#message"),
         newPostSubmit : () => cy.get("#new-post-form").submit(),
+        newPostForm : () => cy.get("#new-post-form"),
         likeButton : () => cy.get('button[class="like-button"]'),
         numberOfLikes : () => cy.get(".post-likes"),
-        logOutButton : () => cy.get("a.nav-link:nth-child(2)")
+        logOutButton : () => cy.get("a.nav-link:nth-child(2)"),
+        commentInput : () => cy.get('[id="comment"]'),
+        commentButton : () => cy.get(".comment-button"),
+        pokeButton : () => cy.get('button[class="befriend-button"]'),
+        friendsLink : () => cy.get("li.nav-item:nth-child(2)"),
+        acceptFriendButton : () => cy.get(".accept-button"),
+        rejectFriendButton : () => cy.get(".reject-button")
     }
 
     seed_db(){
             cy.exec("npm run seed");
+    }
+
+    requestFriend(){
+        this.elements.pokeButton().click();
+    }
+
+    viewFriends(){
+        this.elements.friendsLink().click();
+    }
+
+    acceptFriendRequest(){
+        this.elements.acceptFriendButton().click();
+    }
+
+    rejectFriendRequest(){
+        this.elements.rejectFriendButton().click();
+    }
+
+    makeComment(input){
+        this.elements.commentInput().type(input);
+        this.elements.commentButton().click();
     }
 
     shouldContain(element, value){
