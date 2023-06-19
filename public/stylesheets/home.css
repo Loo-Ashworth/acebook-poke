@@ -11,6 +11,7 @@
      body {
        font-family: "Nunito", sans-serif;
        font-size: 16px;
+       overflow: hidden;
      }
      
      .nav-bar {
@@ -129,6 +130,7 @@
   
   .mainfont {
       font-family: "Jacques Francois Shadow", cursive;
+      
   }
   
   .home .content p {
