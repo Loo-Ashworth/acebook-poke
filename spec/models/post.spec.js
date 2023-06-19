@@ -1,7 +1,15 @@
-var mongoose = require("mongoose");
-
+const mongoose = require("mongoose");
+const Post = require("../../models/post");
 require("../mongodb_helper");
-var Post = require("../../models/post");
+
+const user = {
+  id: new mongoose.Types.ObjectId(),
+};
+
+const createAndValidatePost = (message) => {
+  const post = new Post({ message: message, user: user.id });
+  return post.validateSync();
+};
 
 describe("Post model", () => {
   beforeEach((done) => {
@@ -10,57 +18,54 @@ describe("Post model", () => {
     });
   });
 
-  it("has a message", () => {
-    var post = new Post({ message: "some message" });
-    expect(post.message).toEqual("some message");
+  it("does not have a message", () => {
+    const error = createAndValidatePost("");
+    expect(error.errors["message"].message).toBe("Post message is required");
   });
 
-  it("has a user ID", () => {
-    var post = new Post({ message: "some message",
-                        user_id: 5 });
-    expect(post.user_id).toEqual("5");
+  it("has a message with white spaces", () => {
+    const error = createAndValidatePost("     ");
+    expect(error.errors["message"].message).toBe(
+      "Post message cannot be empty"
+    );
   });
 
-  it("has the time of post creation", () => {
-    const mockDateObject = new Date("2022-04-20T13:33:42.767Z")
-    const spy = jest
-    .spyOn(global, 'Date')
-    .mockImplementation(() => mockDateObject)
-
-    var post = new Post({ message: "some message"})
-    
-    spy.mockRestore()
-
-    expect(post.createdAt).toEqual(new Date("2022-04-20T13:33:42.767Z"))
+  it("has a message > 500 chars", () => {
+    const longMessage = "a".repeat(501);
+    const error = createAndValidatePost(longMessage);
+    expect(error.errors["message"].message).toBe(
+      "Post message cannot be longer than 500 characters"
+    );
   });
 
-  it("can show number of likes", () => {
-    var post = new Post({ message: "some message"})
-
-    expect(post.likes.length).toEqual(0)
-  })
-
-  it("can list all posts", (done) => {
-    Post.find((err, posts) => {
-      expect(err).toBeNull();
-      expect(posts).toEqual([]);
-      done();
-    });
+  it("has a message with the word facebook", () => {
+    const error = createAndValidatePost("FaceBook is the best");
+    expect(error.errors["message"].message).toBe(
+      "Post message cannot contain the word 'facebook'"
+    );
   });
 
-  it("can save a post", (done) => {
-    var post = new Post({ message: "some message" });
+  it("has a valid message", () => {
+    const post = new Post({ message: "some message" });
+    expect(post.message).toBe("some message");
+  });
 
-    post.save((err) => {
-      expect(err).toBeNull();
+  it("when there are no posts", async () => {
+    const posts = await Post.find();
+    expect(posts).toEqual([]);
+  });
 
-      Post.find((err, posts) => {
-        expect(err).toBeNull();
+  it("can save multiple posts", async () => {
+    const first_post = new Post({ message: "some message", user: user.id });
+    await first_post.save();
 
-        expect(posts[0]).toMatchObject({ message: "some message" });
-        done();
-      });
-    });
+    const second_post = new Post({ message: "another message", user: user.id });
+    await second_post.save();
+
+    const posts = await Post.find();
+    expect(posts.length).toBe(2);
+    expect(posts[0]).toMatchObject({ message: "some message" });
+    expect(posts[1]).toMatchObject({ message: "another message" });
   });
 
   it("can comment on a post", (done) => {

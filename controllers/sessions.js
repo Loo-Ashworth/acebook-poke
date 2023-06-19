@@ -6,40 +6,41 @@ const SessionsController = {
 		res.render("sessions/new", { title: "Acebook" });
 	},
 
-	Create: (req, res) => {
-		console.log("trying to log in");
-		const email = req.body.email;
-		const password = req.body.password;
+  Create: (req, res) => {
+    const email = req.body.email;
+    const password = req.body.password;
 
-		User.findOne({ email: email }).then((user) => {
-			if (!user) {
-				const errorMessage = "Invalid email/password.";
-				res.status(404);
-				res.render("sessions/new", { errorMessage: errorMessage });
-			} else {
-				bcrypt.compare(password, user.password, function (error, isMatch) {
-					if (error) {
-						throw error;
-					} else if (!isMatch) {
-						const errorMessage = "Invalid email/password.";
-						res.status(404);
-						res.render("sessions/new", { errorMessage: errorMessage });
-					} else {
-						req.session.user = user;
-						res.redirect("/posts");
-					}
-				});
-			}
-		});
-	},
+    User.findOne({ email: email })
+      .select("+password")
+      .then(async (user) => {
+        if (!user) {
+          res.render("sessions/new", { error: "User not found" });
+        } else {
+          const match = await bcrypt.compare(password, user.password);
 
-	Destroy: (req, res) => {
-		console.log("logging out");
-		if (req.session.user && req.cookies.user_sid) {
-			res.clearCookie("user_sid");
-		}
-		res.redirect("/sessions/new");
-	},
+          if (!match) {
+            res.render("sessions/new", { error: "Incorrect password" });
+          } else {
+            req.session.user = user;
+            res.redirect("/posts");
+          }
+        }
+      });
+  },
+
+  Destroy: (req, res) => {
+    if (req.session.user) {
+      req.session.destroy((err) => {
+        if (err) {
+          return next(err);
+        }
+        res.clearCookie("user_sid");
+        res.redirect("/");
+      });
+    } else {
+      res.redirect("/");
+    }
+  },
 };
 
 module.exports = SessionsController;

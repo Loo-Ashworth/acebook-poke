@@ -1,12 +1,38 @@
-<form action='/sessions?_method=DELETE' method='POST'>
-      <input type="submit" value="Log Out">
-    </form>
+<form
+  id="new-post-form"
+  action="/posts"
+  method="post"
+  enctype="multipart/form-data"
+>
+  <div class="form-message">
+    <label for="message">Message: </label>
+    <textarea
+      id="message"
+      class="form-control custom-input"
+      name="message"
+    ></textarea>
+  </div>
 
-<form id="new-post-form" action="/posts" method="post">
-<form action="/action_page.php">
-  <input type="file" id="myFile" name="filename">
-  <label for="message">Message: </label>
-  <input id="message" type="text" name="message" value="">
-  <input type="submit">
+  <div class="form-image">
+    <label for="image">Image:</label>
+    <input
+      type="file"
+      class="form-control custom-input"
+      id="image"
+      name="image"
+    />
+  </div>
+
+  {{#if error}}
+    <p><strong>Error:</strong> {{error}}</p>
+  {{/if}}
+
+  <div class="form-submit">
+    <input
+      type="submit"
+      class="btn btn-primary btn-block"
+      id="#new-post-form"
+    >Submit</input>
+  </div>
 </form>
 
