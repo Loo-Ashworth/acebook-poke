@@ -36,6 +36,10 @@ const PostSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+PostSchema.pre("find", function (next) {
+  this.populate("user", "image"); // Populate the user field with the image field only
+  next();
+});
 const Post = mongoose.model("Post", PostSchema);
 
 module.exports = Post;

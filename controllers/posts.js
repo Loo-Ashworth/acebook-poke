@@ -10,7 +10,7 @@ const PostsController = {
 
     try {
       const currentUser = await User.findById(req.session.user._id);
-      let posts = await Post.find().exec();
+      let posts = await Post.find().populate("user", "image").exec();
       posts = posts.reverse();
 
       for (let post of posts) {
@@ -42,6 +42,15 @@ const PostsController = {
           { _id: 0, content: 1, user: 1 }
         ).exec();
       }
+
+      
+      // post.comments = await Comment.find(
+      //   { post: post._id },
+      //   { _id: 0, content: 1, user: 1 }
+      // ).populate("user", "image")
+      // .select("-_id content user")
+      // .exec();
+      // }
 
       res.render("posts/index", { posts: posts });
     } catch (err) {

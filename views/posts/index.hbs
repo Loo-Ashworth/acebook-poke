@@ -22,7 +22,13 @@
     {{#each posts}}
       <li class="post-item">
         <div class="post-message">{{this.message}}</div>
+        {{#if this.image}}
+        <img src="{{this.image}}" height="300px" width="300px">
+        {{/if}}
         <p class="post-author">Written by {{this.username}}</p>
+        {{#if this.user.image}}
+        <img src="{{this.user.image}}" height="80px" width="80px">
+        {{/if}}
         <p class="post-date">Posted on {{this.formattedCreatedAt}}</p>
         <div class="actions">
           {{#unless this.currentUser}}
@@ -31,10 +37,10 @@
               <button type="submit" class="befriend-button">Poke</button>
             </form>
           {{/unless}}
-
+      
           {{#if this.currentUser}}
           <a href="/posts/{{this._id}}/edit" class="edit-button">Edit</a> 
-          
+
               <form action="/posts/{{this._id}}/delete" method="POST">
         <input type="hidden" name="_method" value="DELETE">
           <input type="submit" value="Delete">
@@ -42,7 +48,11 @@
           {{/if}}
           {{#each this.comments}}
           <p><i>{{this.content}}</i><br>
-          <span class="comment-author">Posted by {{this.user}}</p></li></span>
+          <span class="comment-author">Posted by {{this.user}}</p> 
+                  {{#if this.user.image}}
+              <img src="{{this.user.image}}" height="80px" width="80px">
+              {{/if}}
+          </li></span>
           {{/each}}
           
 
