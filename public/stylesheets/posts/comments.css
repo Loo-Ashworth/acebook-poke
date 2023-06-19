@@ -19,5 +19,18 @@
   
   .comment-author {
     color: grey;
+    font-size: smaller;
     
+  }
+
+  #comment {
+    border: none;
+    border-bottom: 2px solid #5c6bc0;
+    outline: none;
+    width: 80%;
+    background-color: #F5F5F5;
+  }
+
+  #comment:focus {
+    border-bottom: 2px solid #3949ab;
   }

@@ -1,15 +1,20 @@
 <div class="friends-container">
-  <section class="friendship-section">
+  <section class="requests-received">
     <h2>Friendship Requests</h2>
+    {{#if friendshipRequests}}
     <ul class="friendship-requests">
       {{#each friendshipsRequests}}
         <li>{{this.recipient.username}}</li>
       {{/each}}
     </ul>
+    {{else}}
+    <p>You have currently no friend requests.</p>
+    {{/if}}
   </section>
 
-  <section class="pending-section">
+  <section class="requests-sent">
     <h2>Pending Friendships</h2>
+    {{#if pendingFriendships}}
     <ul class="pending-friendships">
       {{#each pendingFriendships}}
         <li>
@@ -35,9 +40,12 @@
         </li>
       {{/each}}
     </ul>
+    {{else}}
+    <p>You have currently no pending requests.</p>
+    {{/if}}
   </section>
 
-  <section class="accepted-section">
+  <section class="friends">
     <h2>You are friends with</h2>
     <ul class="accepted-friendships">
       {{#each acceptedFriendships}}

@@ -1,8 +1,13 @@
+<div class="form-container">
+  <div class="new-post">
 <form id="new-post-form" action="/posts" method="post">
-  <label for="message">Message: </label>
-  <textarea id="message" name="message"></textarea>
+  <h1><label for="message" class="new-message">Message</label></h1><br>
+  <textarea id="message" 
+rows="3" name="message" maxlength="500" placeholder="What are you up to today?" required></textarea><br><br>
   {{#if error}}
     <p><strong>Error:</strong> {{error}}</p>
   {{/if}}
-  <input type="submit" value="Submit" />
+  <button type="submit" value="Submit" id="submit" class="btn btn-primary btn-block">Post now</button>
 </form>
+</div>
+</div>

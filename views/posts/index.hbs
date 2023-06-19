@@ -1,6 +1,6 @@
+<div class="feed-container">
 
-
-{{#if messages.success}}
+<div class="messages">{{#if messages.success}}
   <ul class="messages">
     {{#each messages.success}}
       <p class="message">{{this}}</p>
@@ -14,16 +14,20 @@
     {{/each}}
   </ul>
 {{/if}}
+</div>
 
-<a class="new-post-link" href="/posts/new">New Post</a>
+<div class="title">
+<h1 class="title">Your timeline</h1>
+</div>
 
-<section class="timeline-section">
-  <ul class="posts">
+<div class="timeline-section">
+<h4 class="new-post-link"><a class="new-post-link" href="/posts/new">New Post</a></h4>
     {{#each posts}}
-      <li class="post-item">
-        <div class="post-message">{{this.message}}</div>
-        <p class="post-author">Written by {{this.username}}</p>
-        <p class="post-date">Posted on {{this.formattedCreatedAt}}</p>
+  <div class="post-container">
+    <div class="post">
+      <p class="post-author">{{this.username}} said</p>
+      <h2 class="post-message">{{this.message}}</h2>
+      <p class="post-date">Posted on {{this.formattedCreatedAt}}</p>
         <div class="actions">
           {{#unless this.currentUser}}
             <form action="/friends" method="post">
@@ -41,24 +45,29 @@
           <label for="comment"></label>
           <input type="hidden" name="postId" value={{this._id}} />
           <input id="comment" type="text" value="" name="commentContent" placeholder="Type your comment here ..." required>
-          <button type="submit" class="comment-button">Comment</button>
+          <button type="submit" id="submit" class="btn btn-primary btn-sm float-right">Comment</button>
           </form>
-
+        </div>
+    </div>
+    <div class="like">
           <form action="/likes" method="post">
             <input type="hidden" name="postId" value={{this._id}} />
-            <button type="submit" class="like-button">❤️</button>
+            <button type="submit" class="like-button">🤍</button>
           </form>
-        </div>
-        <div class="post-likes">
-          {{this.likesCount}}
-          likes
-          <div class="liked-by-tooltip">
-            {{#each this.likedBy}}
-              <div>{{this}}</div>
-            {{/each}}
-          </div>
-        </div>
-      </li>
+    </div>
+    <div class="post-likes">
+      {{this.likesCount}}
+      likes
+      {{#if likedBy}}
+      <div class="liked-by-tooltip">
+        {{#each this.likedBy}}
+          <div>{{this}}</div>
+        {{/each}}
+      </div>
+      {{/if}}
+    </div>
+    <div class="post-container-gap"></div>
+  </div>
     {{/each}}
-  </ul>
-</section>
+</div>
+</div>

@@ -1,1 +1,20 @@
 @import url("./buttons.css");
+
+.new-post-link a {
+    color: #5c6bc0;
+}
+
+.new-post-link a:hover {
+    color: #3949ab;
+    text-decoration: none;
+}
+
+.new-post-link a:visited {
+    color: #5c6bc0;
+}
+
+.title {
+    color: #5c6bc0;
+    font-weight: bold;
+    text-align: center;
+}
