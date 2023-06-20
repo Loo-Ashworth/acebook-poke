@@ -1,0 +1,46 @@
+<div class="form-container">
+  <div class="new-post">
+    <form
+      id="new-post-form"
+      action="/posts"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <div class="form-message">
+        <h1><label for="message" class="new-message">Message</label></h1><br />
+        <textarea
+          id="message"
+          class="form-control custom-input"
+          name="message"
+          rows="3"
+          maxlength="500"
+          placeholder="What are you up to today?"
+          required
+        ></textarea><br /><br />
+      </div>
+
+      <div class="form-image">
+        <label for="image">Image:</label>
+        <input
+          type="file"
+          class="form-control custom-input"
+          id="image"
+          name="image"
+        />
+      </div>
+
+      {{#if error}}
+        <p><strong>Error:</strong> {{error}}</p>
+      {{/if}}
+
+      <div class="form-submit">
+        <input
+          type="submit"
+          class="btn btn-primary btn-block"
+          id="#new-post-form"
+        />
+        Post Now
+      </div>
+    </form>
+  </div>
+</div>

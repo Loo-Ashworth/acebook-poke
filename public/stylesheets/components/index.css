@@ -1,4 +1,6 @@
+@import url("./avatar.css");
 @import url("./buttons.css");
+@import url("./forms.css");
 
 .new-post-link a {
   color: #5c6bc0;
