@@ -23,7 +23,7 @@ class sitePage {
         pokeButton : () => cy.get('button[class="befriend-button"]'),
         friendsLink : () => cy.get("li.nav-item:nth-child(2)"),
         acceptFriendButton : () => cy.get(".accept-button"),
-        rejectFriendButton : () => cy.get(".reject-button")
+        rejectFriendButton : () => cy.get(".reject-button"),
     }
 
     seed_db(){
@@ -53,6 +53,10 @@ class sitePage {
 
     shouldContain(element, value){
         cy.get(element).should("contain", value)
+    }
+
+    nthShouldContain(element, number, value){
+        cy.get(element).eq(number).should("contain", value)
     }
 
     signupAndSignInAs(email, username, password){
