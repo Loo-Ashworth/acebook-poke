@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Post = require("../../models/post");
 require("../mongodb_helper");
+const User = require("../../models/user");
+
 const { mockResponse } = require('jest-mock-req-res');
 
 const user = {
@@ -59,17 +61,17 @@ describe("Post model", () => {
   it("can save multiple posts", async () => {
     const first_post = new Post({ message: "some message", user: user.id });
     await first_post.save();
-
+  
     const second_post = new Post({ message: "another message", user: user.id });
     await second_post.save();
-
-    const posts = await Post.find();
+  
+    const posts = await Post.find().populate("user", "image").exec(); 
     expect(posts.length).toBe(2);
     expect(posts[0]).toMatchObject({ message: "some message" });
     expect(posts[1]).toMatchObject({ message: "another message" });
   });
 
-//   
+  
   // it("can render the edit page", async () => {
   //   // Create a sample post
   //   const post = new Post({ message: "Initial message", user: user.id });
