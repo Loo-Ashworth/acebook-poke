@@ -3,6 +3,7 @@
 @import url("./posts/index.css");
 @import url("./components/index.css");
 @import url("./posts/new.css");
+@import url("./homepage.css");
 
 #submit {
   background-color: #5c6bc0;
