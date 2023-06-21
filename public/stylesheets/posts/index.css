@@ -9,3 +9,10 @@
 .post-likes:hover .liked-by-tooltip {
   display: block;
 }
+
+.post-image {
+  width: 100%; /* Adjust the width as needed */
+  height: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Crop the image to fit */
+  max-width: 400px;
+}
