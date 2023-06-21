@@ -20,10 +20,13 @@ exports.getPendingFriendships = async (userId) => {
 
 exports.getAcceptedFriendships = async (userId) => {
   return await Friend.find({
-    recipient: userId,
+    $or: [{ recipient: userId }, { requester: userId }],
     friendship: true,
   })
-    .populate({ path: "requester", select: "username" })
+    .populate([
+      { path: "requester", select: "username" },
+      { path: "recipient", select: "username" },
+    ])
     .exec();
 };
 
