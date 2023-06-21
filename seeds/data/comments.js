@@ -1,4 +1,4 @@
-const comments = [
+module.exports = [
     { postIndex: 0, user: 'Adrian', content: 'Looks like a fantastic day!' },
     { postIndex: 0, user: 'Louis', content: 'Enjoying the sunshine!' },
     { postIndex: 1, user: 'Terry', content: 'Congratulations on the project!' },

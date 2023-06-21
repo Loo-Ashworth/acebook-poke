@@ -68,21 +68,23 @@ const seedDB = async () => {
         await post.save();
         console.log(`Post "${post.message}" created successfully.`);
       }
-      //   for (let commentData of commentsData) {
-      //     const postIndex = commentData.postIndex;
-      //     const userIndex = commentData.userIndex;
-      //     const post = posts[postIndex];
-      //     const user = createdUsers[userIndex];
-        
-      //     const comment = new Comment({
-      //       post: post._id,
-      //       user: user.username,
-      //       content: commentData.content,
-      //     });
-      //     await comment.save();
-      //     console.log(`Comment "${comment.content}" created successfully.`);
-      //   }
-      // }
+      for (let commentData of commentsData) {
+        const postIndex = commentData.postIndex;
+        const userIndex = commentData.userIndex;
+        const post = postsData[postIndex];
+        const user = createdUsers[userIndex];
+      
+        if (post) { // Check if the post exists
+          const comment = new Comment({
+            post: post._id,
+            user: user.username,
+            content: commentData.content,
+          });
+          await comment.save();
+          console.log(`Comment "${comment.content}" created successfully.`);
+        }
+      }
+      
     const accepted_friendship = new Friend({
       requester: createdUsers[1],
       recipient: createdUsers[0],
